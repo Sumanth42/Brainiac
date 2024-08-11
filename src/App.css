@@ -1,0 +1,35 @@
+#input{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+#sendIcon{
+    padding-right: 1rem;
+    padding-top: 10px;
+}
+#responseCard{
+    margin:48px;
+}
+@media (min-width: 768px) {
+    #responseCard {
+      margin: 0px;
+    }
+}
+#headerDiv{
+    display: flex;
+    justify-content: space-between;
+}  
+.custom{
+    position: absolute;
+    left: 80%;
+}   
+.custom-delete{
+    position: absolute;
+    left: 90%;
+}
+#customWidth{
+    max-width: 90%;
+    display: block;
+    width: fit-content;
+}
