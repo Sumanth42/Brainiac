@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/Brainiac/static/css/main.a6048081.css",
-    "main.js": "/Brainiac/static/js/main.084c9afd.js",
+    "main.js": "/Brainiac/static/js/main.2d4fb9f7.js",
     "static/js/453.5cf7093f.chunk.js": "/Brainiac/static/js/453.5cf7093f.chunk.js",
     "index.html": "/Brainiac/index.html",
     "main.a6048081.css.map": "/Brainiac/static/css/main.a6048081.css.map",
-    "main.084c9afd.js.map": "/Brainiac/static/js/main.084c9afd.js.map",
+    "main.2d4fb9f7.js.map": "/Brainiac/static/js/main.2d4fb9f7.js.map",
     "453.5cf7093f.chunk.js.map": "/Brainiac/static/js/453.5cf7093f.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.a6048081.css",
-    "static/js/main.084c9afd.js"
+    "static/js/main.2d4fb9f7.js"
   ]
 }
