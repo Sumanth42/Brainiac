@@ -13,9 +13,15 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { saveDataToFirestore } from "./firebase";
 
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-const genAI = new GoogleGenerativeAI(process.env.REACT_APP_GOOGLE_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+
+const GEMINI_API_URL =
+  "https://brainiac-gemini.brainiac-gemini-ai.workers.dev";
+// const GEMINI_API_URL = "http://127.0.0.1:8787"
+
+
+// const { GoogleGenerativeAI } = require("@google/generative-ai");
+// const genAI = new GoogleGenerativeAI(process.env.REACT_APP_GOOGLE_API_KEY);
+// const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
 function App() {
   const [question, setQuestion] = useState("");
@@ -52,34 +58,68 @@ function App() {
       console.log("Form has errors");
     }
   };
-  async function run() {
-    const prompt = `
-    You are a Brainiac assistant chatbot, I am here to help with your queries. Please answer the following question in a simple and concise manner, using bullet points:
-    - Provide clear and direct answers
-    - Avoid unnecessary details 
-    - Ensure the response is easy to understand
+  // async function run() {
+  //   const prompt = `
+  //   You are a Brainiac assistant chatbot, I am here to help with your queries. Please answer the following question in a simple and concise manner, using bullet points:
+  //   - Provide clear and direct answers
+  //   - Avoid unnecessary details 
+  //   - Ensure the response is easy to understand
     
-    Question: ${question}`;
-    try {
-      const result = await model.generateContent(prompt);
+  //   Question: ${question}`;
+  //   try {
+  //     const result = await model.generateContent(prompt);
 
-      if (result.response) {
-        const text = result.response.text();
-        setAnswer(text);
-        setQuestion("");
-      } else {
-        console.error("Model did not generate a response.");
-        setAnswer(
-          "I couldn't understand your question. Please try rephrasing it."
-        );
-      }
-    } catch (error) {
-      console.error("Error generating response:", error);
-      setAnswer("Something went wrong. Please try again later.");
-    } finally {
-      setLoader(false);
-    }
+  //     if (result.response) {
+  //       const text = result.response.text();
+  //       setAnswer(text);
+  //       setQuestion("");
+  //     } else {
+  //       console.error("Model did not generate a response.");
+  //       setAnswer(
+  //         "I couldn't understand your question. Please try rephrasing it."
+  //       );
+  //     }
+  //   } catch (error) {
+  //     console.error("Error generating response:", error);
+  //     setAnswer("Something went wrong. Please try again later.");
+  //   } finally {
+  //     setLoader(false);
+  //   }
+  // }
+  async function run() {
+  const prompt = `
+You are a Brainiac assistant chatbot, I am here to help with your queries. Please answer the following question in a simple and concise manner, using bullet points:
+- Provide clear and direct answers
+- Avoid unnecessary details 
+- Ensure the response is easy to understand
+
+Question: ${question}`;
+
+  try {
+    const response = await fetch(GEMINI_API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ prompt })
+    });
+
+    const data = await response.json();
+
+    const text =
+      data?.candidates?.[0]?.content?.parts?.[0]?.text ||
+      "No response from Gemini.";
+
+    setAnswer(text);
+    setQuestion("");
+  } catch (error) {
+    console.error("Gemini error:", error);
+    setAnswer("Something went wrong. Please try again later.");
+  } finally {
+    setLoader(false);
   }
+}
+
 
   const formatAnswer = (text) => {
     const formattedText = text
